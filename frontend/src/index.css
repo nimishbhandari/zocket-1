@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Eudoxus Sans";
+  font-style: normal;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+h6 {
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.color-1 {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.root {
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background-color: #f6f9ff;
+}
+
+.root_main {
+  padding: 10vh 2rem 5vh 3rem;
+}
+
+.sidebar {
+  background-color: #001738;
+  color: #fff;
+  min-height: 100vh;
+  width: 100% !important;
+  z-index: 2;
+}
+
+.sidebar > div > p {
+  font-size: 10px;
+}
+
+.sidebar > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1rem;
+  cursor: pointer;
+}
+
+.home_logo:hover,
+.campaign_logo:hover,
+.product_logo:hover,
+.customers_logo:hover,
+.active {
+  background-color: #02214b;
+  border-left: solid;
+  border-width: 8px;
+  border-color: #1977f3;
+  transition: 0.5s;
+}
+
+.zocket_logo {
+  padding: 50px 0px !important;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin: 0 0 0 -100px;
+  background-color: #fff;
+  z-index: 1;
+  border: solid;
+}
+
+.stepper_active {
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  color: #0b1a33;
+}
+
+.stepper_inactive {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  color: #abb6c5;
+}
+
+.stepper_block {
+  margin: 2rem 0.5rem;
+}
+
+.stepper_svg_a {
+  width: 60px;
+  height: 60px;
+  background: #f29a2e;
+  border-radius: 50%;
+}
+
+.stepper_svg_ina {
+  width: 60px;
+  height: 60px;
+  background: #abb5c2;
+  border-radius: 50%;
+}
+
+.button-1 {
+  background: #0f6eff;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #ffffff;
+  padding: 14px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button-1:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.campaign_table {
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 12px;
+  padding: 3rem;
+  margin-top: 2rem;
+}
+
+.search_main {
+  border: solid;
+  border-radius: 10px;
+  border-color: #e9e9e9;
+  max-width: 50%;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.search_input {
+  border: none;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.table_filter_header {
+  color: rgba(0, 0, 0, 0.5);
+  font: 16px;
+}
+
+.table_filter_select {
+  padding: 10px 2px;
+  border-radius: 10px;
+  border: 1.5px solid #e9e9e9;
+  background-color: #fff;
+  text-align: center;
+}
