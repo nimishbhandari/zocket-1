@@ -86,6 +86,43 @@ const Campaign = () => {
             </select>
           </div>
         </div>
+
+        <div className="row table_main">
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">On/Off</th>
+                <th scope="col">Campaign</th>
+                <th scope="col">Date Range</th>
+                <th scope="col">Clicks</th>
+                <th scope="col">Budget</th>
+                <th scope="col">Location</th>
+                <th scope="col">Platform</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <label class="switch">
+                    <input type="checkbox" />
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+
+                <td>Campaign</td>
+                <td>Date Range</td>
+                <td>Clicks</td>
+                <td>Budget</td>
+                <td>Location</td>
+                <td>Platform</td>
+                <td>Status</td>
+                <td>Actions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
   );
