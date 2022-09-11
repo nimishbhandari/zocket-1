@@ -14,6 +14,18 @@ app.use(express.json());
 app.use("/api/products", productRoutes);
 app.use("/api/campaigns", campaignRoutes);
 
+if (process.env.MODE === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Listening on Port ${PORT}`);
