@@ -5,6 +5,10 @@ import moment from "moment";
 
 const Campaign = () => {
   const [campaigns, setCampigns] = useState([]);
+  const [platform, setPlatform] = useState([]);
+  const [result, setResult] = useState([]);
+  const [search, setSearch] = useState("");
+
   const getCampaigns = async () => {
     try {
       let res = await axios.get("/api/campaigns");
@@ -30,6 +34,28 @@ const Campaign = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (platform) {
+      let result = campaigns.filter((camp) => camp.platform === platform);
+      setResult(result);
+    } else {
+      setResult([]);
+    }
+  }, [platform, campaigns, search]);
+
+  useEffect(() => {
+    if (search) {
+      let result = campaigns.filter(
+        (camp) =>
+          camp.name.toLowerCase().includes(search) ||
+          camp.location.toLowerCase().includes(search) ||
+          camp.platform.toLowerCase().includes(search) ||
+          camp.sdate.includes(search)
+      );
+      setResult(result);
+    }
+  }, [search, campaigns]);
 
   return (
     <div className="campaign_root">
@@ -63,7 +89,7 @@ const Campaign = () => {
       </div>
       <section className="campaign_table">
         <div className="row d-flex justify-content-center align-items-center">
-          <div className="col-6 ">
+          <div className="col-6">
             <div className="search_main">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,34 +110,21 @@ const Campaign = () => {
                 type="text"
                 className="search_input"
                 placeholder="Search for the campaign"
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
           </div>
-          <div className="col-2">
+          <div className="col-6 d-flex justify-content-end align-items-center">
             <span className="table_filter_header">Platform: &nbsp;</span>
-            <select className="table_filter_select">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="audi">Audi</option>
-            </select>
-          </div>
-          <div className="col-2">
-            <span className="table_filter_header">Status: &nbsp;</span>
-            <select className="table_filter_select">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="audi">Audi</option>
-            </select>
-          </div>
-          <div className="col-2">
-            <span className="table_filter_header">Time: &nbsp;</span>
-            <select className="table_filter_select">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="audi">Audi</option>
+            <select
+              className="table_filter_select"
+              onChange={(e) => setPlatform(e.target.value)}
+            >
+              <option value="">All Platform </option>
+              <option value="Google">Google</option>
+              <option value="FB">FB</option>
+              <option value="Youtube">Youtube</option>
+              <option value="Instagram">Instagram</option>
             </select>
           </div>
         </div>
@@ -131,7 +144,48 @@ const Campaign = () => {
               </tr>
             </thead>
             <tbody>
-              {campaigns.length > 0
+              {result.length > 0
+                ? result.map((camp, i) => (
+                    <tr key={i}>
+                      <td>
+                        <label className="switch">
+                          <input type="checkbox" />
+                          <span className="slider round"></span>
+                        </label>
+                      </td>
+
+                      <td>{camp.name}</td>
+                      <td>
+                        {moment(camp.sdate).format("DD/MM/YY")} -{" "}
+                        {moment(camp.edate).format("DD/MM/YY")}
+                      </td>
+
+                      <td>Rs. {camp.budget}</td>
+                      <td>{camp.location}</td>
+                      <td>{camp.platform}</td>
+                      <td>{camp.status}</td>
+                      <td>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="21"
+                          height="21"
+                          fill="none"
+                          viewBox="0 0 21 21"
+                          onClick={() => deleteHandler(camp._id)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <path
+                            stroke="#FC3F3F"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                            d="M18.375 5.232a88.988 88.988 0 00-8.768-.437c-1.732 0-3.464.087-5.197.262l-1.785.175M7.438 4.349l.192-1.147c.14-.83.245-1.452 1.724-1.452h2.292c1.479 0 1.593.656 1.724 1.461l.193 1.138M16.494 7.998l-.569 8.81c-.096 1.375-.175 2.442-2.616 2.442H7.69c-2.441 0-2.52-1.067-2.616-2.441l-.569-8.811M9.039 14.438h2.913M8.313 10.938h4.374"
+                          ></path>
+                        </svg>
+                      </td>
+                    </tr>
+                  ))
+                : campaigns.length > 0
                 ? campaigns.map((camp, i) => (
                     <tr key={i}>
                       <td>

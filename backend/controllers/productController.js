@@ -19,9 +19,9 @@ const getProducts = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const product = new Product({
-      name: "Sample name3",
+      name: "Sample name9",
       amount: 3400,
-      img: "/images/sample.jpg",
+      img: "./image/sample_product1.png",
     });
 
     const createdProduct = await product.save();

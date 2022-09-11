@@ -80,7 +80,7 @@ const Step1 = () => {
               </div>
               <div className="col-10">
                 <h3>Get Leads as call</h3>
-                <h4>Reach broad audience and get leads through calls</h4>
+                <h4>Reach broad audience and get leads</h4>
               </div>
             </div>
           </div>
@@ -216,7 +216,7 @@ const Step1 = () => {
               </div>
               <div className="col-10">
                 <h3>Get more youtube views</h3>
-                <h4>Increase organic views by obtaining user attention </h4>
+                <h4>Increase organic views by obtaining users </h4>
               </div>
             </div>
           </div>{" "}
@@ -284,7 +284,7 @@ const Step1 = () => {
               </div>
               <div className="col-10">
                 <h3>Increase Live store traffic</h3>
-                <h4>Drive visits to local stores, restaurants & Dealerships</h4>
+                <h4>Drive visits to local stores & Dealerships</h4>
               </div>
             </div>
           </div>{" "}
@@ -352,7 +352,7 @@ const Step1 = () => {
               </div>
               <div className="col-10">
                 <h3>Increase the catalogue sales</h3>
-                <h4>Drive the sales of your catalogue and get more leads</h4>
+                <h4>Drive the sales of your catalogue </h4>
               </div>
             </div>
           </div>

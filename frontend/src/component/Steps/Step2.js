@@ -37,7 +37,6 @@ const Step2 = () => {
   };
 
   let navigate = useNavigate();
-  console.log(active);
   return (
     <div className="step1_root">
       <div className="row">
