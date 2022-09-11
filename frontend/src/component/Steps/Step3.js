@@ -3,10 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import Stepper from "../Stepper/Stepper";
 
 const Step3 = () => {
-  const [radius, setRadius] = useState(15);
+  const [radius, setRadius] = useState("");
   const [budget, setBudget] = useState(50000);
-  const [active, setActive] = useState("location");
+  const [activeType, setActiveType] = useState("location");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [location, setLocation] = useState("");
   let navigate = useNavigate();
+
+  const submitHandler = () => {
+    JSON.stringify(localStorage.setItem("budget_z", budget));
+    JSON.stringify(localStorage.setItem("start_z", startDate));
+    JSON.stringify(localStorage.setItem("end_z", endDate));
+    if (activeType === "location") {
+      JSON.stringify(localStorage.setItem("location", location));
+    } else {
+      JSON.stringify(localStorage.setItem("location", radius + " kms"));
+    }
+  };
 
   return (
     <div className="step1_root">
@@ -36,11 +50,25 @@ const Step3 = () => {
           <div className="row">
             <div className="col-6">
               <p>Start Date</p>
-              <input type="date" className="date_input" />
+              <input
+                type="date"
+                className="date_input"
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                }}
+              />
             </div>
             <div className="col-6">
               <p>End Date</p>
-              <input type="date" className="date_input" />
+              <input
+                type="date"
+                className="date_input"
+                disabled={startDate === ""}
+                min={startDate}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                }}
+              />
             </div>
             <div className="col-12 " style={{ paddingLeft: "3rem" }}>
               <p className="row mt-4">Set Your Target Budget</p>
@@ -52,7 +80,7 @@ const Step3 = () => {
                 onChange={(e) => setBudget(e.target.value)}
                 className="row slider_input"
               />
-              {budget}
+              {budget && `Rs. ${budget}`}
             </div>
           </div>
 
@@ -62,9 +90,9 @@ const Step3 = () => {
             <div className="row">
               <div className="col-3">
                 <button
-                  onClick={() => setActive("location")}
+                  onClick={() => setActiveType("location")}
                   className={`btn btn-block button-1 ${
-                    active === "radius" && "button-2"
+                    activeType === "radius" && "button-2"
                   }`}
                 >
                   Location
@@ -72,9 +100,9 @@ const Step3 = () => {
               </div>
               <div className="col-3">
                 <button
-                  onClick={() => setActive("radius")}
+                  onClick={() => setActiveType("radius")}
                   className={`btn btn-block button-1 ${
-                    active === "location" && "button-2"
+                    activeType === "location" && "button-2"
                   }`}
                 >
                   Radius
@@ -82,17 +110,21 @@ const Step3 = () => {
               </div>
             </div>
             <div className="set_location">
-              {active === "location" && (
+              {activeType === "location" && (
                 <>
                   <p className="row">Set your location</p>
                   <input
                     type="text"
                     className="row location_input"
                     placeholder="Select a place name, address or coordinates"
+                    onChange={(e) => {
+                      setRadius("");
+                      setLocation(e.target.value);
+                    }}
                   />
                 </>
               )}
-              {active === "radius" && (
+              {activeType === "radius" && (
                 <>
                   <p className="row mt-4">Set Your Target Radius</p>
                   <input
@@ -100,10 +132,13 @@ const Step3 = () => {
                     min="1"
                     max="30"
                     value={radius}
-                    onChange={(e) => setRadius(e.target.value)}
+                    onChange={(e) => {
+                      setLocation("");
+                      setRadius(e.target.value);
+                    }}
                     className="row slider_input"
                   />
-                  {radius}
+                  {radius && `${radius} kms`}
                 </>
               )}
             </div>
@@ -111,7 +146,17 @@ const Step3 = () => {
         </div>
         <div className="col-2 d-flex justify-content-center align-items-end">
           <Link to="/step4">
-            <button className="btn btn-block button-1">Continue</button>
+            <button
+              className="btn btn-block button-1"
+              disabled={
+                startDate === "" ||
+                endDate === "" ||
+                (location === "" && radius === "")
+              }
+              onClick={submitHandler}
+            >
+              Continue
+            </button>
           </Link>
         </div>
       </div>

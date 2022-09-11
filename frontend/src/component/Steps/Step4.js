@@ -1,10 +1,76 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Stepper from "../Stepper/Stepper";
 
 const Step4 = () => {
   const [active, setActive] = useState(0);
-  let navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [budget, setBudget] = useState("");
+  const [sdate, setStartDate] = useState("");
+  const [edate, setEndDate] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [location, setLocation] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let req_product = localStorage.getItem("product_z")
+      ? localStorage.getItem("product_z")
+      : "";
+    let req_budget = localStorage.getItem("budget_z")
+      ? localStorage.getItem("budget_z")
+      : "";
+    let req_endDate = localStorage.getItem("end_z")
+      ? localStorage.getItem("end_z")
+      : "";
+    let req_location = localStorage.getItem("location")
+      ? localStorage.getItem("location")
+      : "";
+    let req_platform = localStorage.getItem("platform_z")
+      ? localStorage.getItem("platform_z")
+      : "";
+    let req_startDate = localStorage.getItem("start_z")
+      ? localStorage.getItem("start_z")
+      : "";
+
+    setName(req_product);
+    setBudget(req_budget);
+    setEndDate(req_endDate);
+    setLocation(req_location);
+    setPlatform(req_platform);
+    setStartDate(req_startDate);
+  }, []);
+
+  const createCampaigns = async () => {
+    try {
+      let res = await axios.post("/api/campaigns", {
+        name,
+        sdate,
+        edate,
+        location,
+        platform,
+        status: "Live now",
+        budget,
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const submitHandler = () => {
+    createCampaigns();
+    localStorage.removeItem("product_z");
+    localStorage.removeItem("budget_z");
+    localStorage.removeItem("end_z");
+    localStorage.removeItem("start_z");
+    localStorage.removeItem("platform_z");
+    localStorage.removeItem("location_z");
+    localStorage.removeItem("step_1_active");
+    localStorage.removeItem("step_2_active");
+
+    navigate("/");
+  };
 
   return (
     <div className="step1_root">
@@ -13,9 +79,6 @@ const Step4 = () => {
           <h1>Your Ad Campaign</h1>
           <h6>Launch your ad in 4 easy steps</h6>
         </div>
-        <button className="col-1 btn" onClick={() => navigate(-1)}>
-          Back
-        </button>
       </div>
       <div className="row stepper_block">
         <div className="col-12">
@@ -130,9 +193,13 @@ const Step4 = () => {
         <div className="row mt-5">
           <div className="col-10"></div>
           <div className="col-2">
-            <Link to="/">
-              <button className="btn btn-block button-1">Continue</button>
-            </Link>
+            <button
+              onClick={submitHandler}
+              disabled={!active}
+              className="btn btn-block button-1"
+            >
+              Continue
+            </button>
           </div>
         </div>
       </div>

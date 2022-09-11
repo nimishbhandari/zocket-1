@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
 
 const Campaign = () => {
+  const [campaigns, setCampigns] = useState([]);
+  const getCampaigns = async () => {
+    try {
+      let res = await axios.get("/api/campaigns");
+      if (res.data.length) {
+        setCampigns([...res.data]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCampaigns();
+  }, []);
+
+  const deleteHandler = async (id) => {
+    try {
+      let res = await axios.delete(`/api/campaigns/${id}`);
+      console.log(res);
+      let campaign_new = campaigns.filter((camp) => camp._id !== id);
+      setCampigns([...campaign_new]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="campaign_root">
       <div className="row">
@@ -94,7 +123,6 @@ const Campaign = () => {
                 <th scope="col">On/Off</th>
                 <th scope="col">Campaign</th>
                 <th scope="col">Date Range</th>
-                <th scope="col">Clicks</th>
                 <th scope="col">Budget</th>
                 <th scope="col">Location</th>
                 <th scope="col">Platform</th>
@@ -103,23 +131,48 @@ const Campaign = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <label class="switch">
-                    <input type="checkbox" />
-                    <span class="slider round"></span>
-                  </label>
-                </td>
+              {campaigns.length > 0
+                ? campaigns.map((camp, i) => (
+                    <tr key={i}>
+                      <td>
+                        <label className="switch">
+                          <input type="checkbox" />
+                          <span className="slider round"></span>
+                        </label>
+                      </td>
 
-                <td>Campaign</td>
-                <td>Date Range</td>
-                <td>Clicks</td>
-                <td>Budget</td>
-                <td>Location</td>
-                <td>Platform</td>
-                <td>Status</td>
-                <td>Actions</td>
-              </tr>
+                      <td>{camp.name}</td>
+                      <td>
+                        {moment(camp.sdate).format("DD/MM/YY")} -{" "}
+                        {moment(camp.edate).format("DD/MM/YY")}
+                      </td>
+
+                      <td>Rs. {camp.budget}</td>
+                      <td>{camp.location}</td>
+                      <td>{camp.platform}</td>
+                      <td>{camp.status}</td>
+                      <td>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="21"
+                          height="21"
+                          fill="none"
+                          viewBox="0 0 21 21"
+                          onClick={() => deleteHandler(camp._id)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <path
+                            stroke="#FC3F3F"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                            d="M18.375 5.232a88.988 88.988 0 00-8.768-.437c-1.732 0-3.464.087-5.197.262l-1.785.175M7.438 4.349l.192-1.147c.14-.83.245-1.452 1.724-1.452h2.292c1.479 0 1.593.656 1.724 1.461l.193 1.138M16.494 7.998l-.569 8.81c-.096 1.375-.175 2.442-2.616 2.442H7.69c-2.441 0-2.52-1.067-2.616-2.441l-.569-8.811M9.039 14.438h2.913M8.313 10.938h4.374"
+                          ></path>
+                        </svg>
+                      </td>
+                    </tr>
+                  ))
+                : null}
             </tbody>
           </table>
         </div>

@@ -1,9 +1,43 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Stepper from "../Stepper/Stepper";
 
 const Step2 = () => {
+  const [active, setActive] = useState(-1);
+  const [products, setProducts] = useState("");
+  const [product, setProduct] = useState("");
+
+  const getProducts = async () => {
+    try {
+      let res = await axios.get("/api/products");
+      if (res.data.length) {
+        setProducts([...res.data]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+    let req_product = localStorage.getItem("product_z")
+      ? localStorage.getItem("product_z")
+      : "";
+    let req_active = localStorage.getItem("step_2_active")
+      ? localStorage.getItem("step_2_active")
+      : -1;
+    setProduct(req_product);
+    setActive(Number(req_active));
+  }, []);
+
+  const submitHandler = () => {
+    JSON.stringify(localStorage.setItem("product_z", product));
+    JSON.stringify(localStorage.setItem("step_2_active", active));
+  };
+
   let navigate = useNavigate();
+  console.log(active);
   return (
     <div className="step1_root">
       <div className="row">
@@ -30,111 +64,44 @@ const Step2 = () => {
           <hr />
         </div>
         <div className="row d-flex justify-content-center align-items-center">
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
-          <div className="col-3 step_1_card">
-            <div className="row">
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <img src="./images/sample_product1.png" alt="" />
-              </div>
-              <div className="col-9">
-                <h3>Bluberry cake with raw toppings</h3>
-                <h4>Rs 2980</h4>
-              </div>
-            </div>
-          </div>
+          {products.length > 0 && (
+            <>
+              {products.map((product, i) => (
+                <div
+                  className={`col-3 step_1_card ${
+                    active === i && "conslusion_active"
+                  }`}
+                  key={i}
+                  onClick={() => {
+                    setActive(i);
+                    setProduct(product.name);
+                  }}
+                >
+                  <div className="row">
+                    <div className="col-3 d-flex justify-content-center align-items-center">
+                      <img src="./images/sample_product1.png" alt="" />
+                    </div>
+                    <div className="col-9">
+                      <h3>{product.name}</h3>
+                      <h4>Rs. {product.amount}</h4>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
         <div className="row">
           <div className="col-10"></div>
           <div className="col-2">
             <Link to="/step3">
-              <button className="btn btn-block button-1">Continue</button>
+              <button
+                className="btn btn-block button-1"
+                disabled={product === ""}
+                onClick={() => submitHandler()}
+              >
+                Continue
+              </button>
             </Link>
           </div>
         </div>

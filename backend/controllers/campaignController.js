@@ -17,7 +17,7 @@ const getCampaigns = async (req, res) => {
 //@routes   POST /api/campaigns
 //@access   PUBLIC
 const createCampaigns = async (req, res) => {
-  let { name, sdate, edate, location, platform, status, working } = req.body;
+  let { name, sdate, edate, location, platform, status, budget } = req.body;
 
   try {
     const campaign = new Campaigns({
@@ -27,7 +27,7 @@ const createCampaigns = async (req, res) => {
       location,
       platform,
       status,
-      working,
+      budget,
     });
 
     const createdCampaign = await campaign.save();
